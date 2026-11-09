@@ -15,7 +15,7 @@ final class Iptables {
         int uid = android.os.Process.myUid();
         String cmd = NAT + "-N " + CHAIN + " 2>/dev/null; "
                 + NAT + "-F " + CHAIN + " && "
-                + NAT + "-A " + CHAIN + " ! -d 127.0.0.0/8 -m owner ! --uid-owner " + uid
+                + NAT + "-A " + CHAIN + " -p tcp --dport 80 ! -d 127.0.0.0/8 -m owner ! --uid-owner " + uid
                 + " -j REDIRECT --to-ports " + port + " && { "
                 + NAT + "-D OUTPUT -p tcp --dport 80 -j " + CHAIN + " 2>/dev/null; "
                 + NAT + "-I OUTPUT 1 -p tcp --dport 80 -j " + CHAIN + "; }";
